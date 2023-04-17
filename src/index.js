@@ -26,9 +26,10 @@ const handleInput = debounce((event) => {
                 renderCountryInfo(countries[0]);
             } else if (countries.length !== 1) {
                 countryInfo.innerHTML = '';
-                renderCountryList(countries);                
+                renderCountryList(countries);
             }
         })
+        
         .catch((error) => {
             console.log(error);
         });
