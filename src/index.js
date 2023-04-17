@@ -46,9 +46,9 @@ function renderCountryInfo(country) {
     const languages = country.languages.map((lang) => lang.name).join(', ');
 
     countryInfo.innerHTML =
-    `<h2>${country.name.official}</h2>
-    <img src="${country.flags.svg}" alt="Flag of ${country.name.official}">
-    <p>Capital: ${country.capital}</p>
-    <p>Population: ${country.population}</p>
-    <p>Languages: ${languages}</p>`;
+    `<img src="${country.flags.png}" alt="${country.name.common}">
+    <h2>${country.name.common}</h2>
+    <p><strong>Capital:</strong> ${country.capital[0]}</p>
+    <p><strong>Population:</strong> ${country.population}</p>
+    <p><strong>Languages:</strong> ${Object.values(country.languages).join(', ')}</p>`;
 }
