@@ -2,6 +2,7 @@ import './css/styles.css';
 import debounce from 'lodash.debounce';
 import Notiflix from 'notiflix';
 import { fetchCountries } from './js/fetchCountries';
+import { renderCountryInfo, renderCountryList, clearHTML } from './js/renderCountry';
 
 const DEBOUNCE_DELAY = 300;
 
@@ -18,51 +19,24 @@ const handleInput = debounce((event) => {
 
     fetchCountries(inputValue)
         .then((countries) => {
-            if (countries === null || countries === undefined) {
-                countryList.innerHTML = '';
-                countryInfo.innerHTML = '';
-            } else if (countries.length === 1) {
+            if (countries.length === 1) {
                 countryList.innerHTML = '';
                 renderCountryInfo(countries[0]);
-            } else if (countries.length !== 1) {
+            } else if (countries.length > 1 && countries.length <= 10) {
                 countryInfo.innerHTML = '';
                 renderCountryList(countries);
+            } else if (countries.length > 10) {
+                clearHTML();
+                Notiflix.Notify.info('Too many matches found. Please enter a more specific name.');
             }
         })
         
         .catch((error) => {
-            console.log(error);
+            clearHTML();
+            Notiflix.Notify.failure('Oops, there is no country with that name');
         });
 }, DEBOUNCE_DELAY);
 
 input.addEventListener('input', handleInput);
 
-function renderCountryList(countries) {
-    countryList.innerHTML = '';
 
-    countries.forEach((country) => {
-        const listItem = document.createElement('li');
-
-        listItem.innerHTML = `<img src="${country.flags.png}" alt="${country.name.common}" class="flag-country"><span>${country.name.common}</span>`;
-
-        listItem.addEventListener('click', () => {
-            renderCountryInfo(country);
-        });
-        countryList.appendChild(listItem)
-    });
-};
-
-function renderCountryInfo(country) {
-    const countryLanguages = country.languages;
-    const languages = [];
-    Object.keys(countryLanguages).forEach(key => {
-        const value = countryLanguages[key];
-        languages.push(value)
-    });
-
-    countryInfo.innerHTML =
-    `<h2><img src="${country.flags.png}" alt="${country.name.common}">${country.name.common}</h2>
-    <p><strong>Capital:</strong> ${country.capital[0]}</p>
-    <p><strong>Population:</strong> ${country.population}</p>
-    <p><strong>Languages:</strong> ${languages.join(', ')}</p>`;
-}
