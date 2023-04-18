@@ -10,6 +10,15 @@ const input = document.getElementById('search-box');
 const countryList = document.querySelector('.country-list');
 const countryInfo = document.querySelector('.country-info');
 
+Notiflix.Notify.init({
+  position: 'center-top',
+  distance: '10px',
+  borderRadius: '5px',
+  width: '300px',
+  opacity: 0.9,
+  timeout: 3000,
+});
+
 const handleInput = debounce((event) => {
     const inputValue = event.target.value;
 
