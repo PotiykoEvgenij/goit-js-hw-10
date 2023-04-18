@@ -11,7 +11,7 @@ const countryList = document.querySelector('.country-list');
 const countryInfo = document.querySelector('.country-info');
 
 Notiflix.Notify.init({
-  position: 'center-top',
+  position: 'right-top',
   distance: '10px',
   borderRadius: '5px',
   width: '300px',
